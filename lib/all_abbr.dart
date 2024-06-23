@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.blue.shade900,
                 ),
                 child:
-                Text('  All Abbr according to JSSDM-2022  ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),),
+                Text('  ALL ABBR (AS PER JSSDM-2022)  ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),),
               ),
               TextField(
                 onChanged: (value) => _filterWords(value),

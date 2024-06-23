@@ -67,7 +67,7 @@ class _PracAbbrState extends State<PracAbbr> {
                 ]),
               ),
               child:
-              Text('  Test Your Abbr Competency!  ', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),),
+              Text('  TEST YOUR ABBR COMPETENCY  ', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),),
 
             ),
             const SizedBox(height: 10,),

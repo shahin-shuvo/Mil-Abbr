@@ -7,7 +7,9 @@ import 'package:mil_abbr/CustomAppBar.dart';
 
 class LandingPage extends StatefulWidget {
 
-  const LandingPage({super.key});
+
+  final int initNavIndex;
+  const LandingPage({super.key, required this.initNavIndex});
 
 
 
@@ -16,7 +18,15 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  int navIndex=0;
+  int navIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    navIndex= widget.initNavIndex;
+
+  }
 
   final screens = [
     HomePage(),
