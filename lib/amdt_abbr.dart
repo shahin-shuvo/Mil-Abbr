@@ -92,6 +92,12 @@ class _AmdtAbbrState extends State<AmdtAbbr> {
 
 
               ),
+              Container(
+                child:
+                Text('  AS PER JSSDM-2022  ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),),
+
+
+              ),
 
               TextField(
                   onChanged: (value) => _filterWords(value),

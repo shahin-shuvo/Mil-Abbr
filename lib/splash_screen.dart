@@ -1,8 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mil_abbr/all_abbr.dart';
-import 'package:mil_abbr/CustomShape_Image.dart';
 import 'package:mil_abbr/landing_page.dart';
 
 
@@ -56,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             ),
 
             SizedBox(height: 20,),
-            Text("In War, In Peace,\n We are everywhere for our Nation", textAlign: TextAlign.center,
+            Text("In War, In Peace,\n We are everywhere for our nation", textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             SizedBox(height: 400,),
             Image(image: AssetImage("assets/images/splash_lower_1.jpg"),

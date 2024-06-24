@@ -4,13 +4,14 @@ import 'package:mil_abbr/ExamScript.dart';
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
 
-
-
   @override
   State<Quiz> createState() => _QuizState();
 }
 
 class _QuizState extends State<Quiz> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +33,7 @@ class _QuizState extends State<Quiz> {
                 button: FilledButton(
                   style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
                     onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>const ExamScript(ques: 10, type: "abbr")),);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  ExamScript(ques: 10, type: "abbr", isWrongVis: List.filled(10, false, growable: false))),);
                     },
                     child: const Text('Get Started'),
                 ),
@@ -47,7 +48,7 @@ class _QuizState extends State<Quiz> {
                 button: FilledButton(
                   style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>const ExamScript(ques: 20, type: "abbr")),);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 20, type: "abbr", isWrongVis: List.filled(20, false, growable: false))),);
 
                     }, child: const Text('Get Started')),
               )
@@ -61,7 +62,7 @@ class _QuizState extends State<Quiz> {
                 button: FilledButton(
                   style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>const ExamScript(ques: 10, type: "deabbr")),);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 10, type: "deabbr", isWrongVis: List.filled(10, false, growable: false))),);
 
                     }, child: const Text('Get Started')),
               )
@@ -75,7 +76,7 @@ class _QuizState extends State<Quiz> {
                 button: FilledButton(
 
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>const ExamScript(ques: 20, type: "deabbr")),);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 20, type: "deabbr", isWrongVis: List.filled(20, false, growable: false))),);
                     },
                     child: const Text('Get Started'),
                     style:  FilledButton.styleFrom(backgroundColor: Colors.amber),),

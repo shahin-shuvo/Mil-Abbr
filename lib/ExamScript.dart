@@ -3,13 +3,16 @@ import 'dart:math';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mil_abbr/landing_page.dart';
-import 'package:mil_abbr/quiz.dart';
+
 
 class ExamScript extends StatefulWidget {
   final int ques;
   final String type;
-  const ExamScript({super.key, required this.ques, required this.type});
+  final isWrongVis;
+  const ExamScript({super.key, required this.ques, required this.type, this.isWrongVis});
 
 
   @override
@@ -17,22 +20,28 @@ class ExamScript extends StatefulWidget {
 }
 
 class _ExamScriptState extends State<ExamScript> {
+  int totalAbbr = 1770;
   List finalQues = [];
   List quesIndex = [];
   List quesSet = [];
   String typeHd ="";
   int quesnumHd = 0;
   int score = 0;
+  bool isInTime = true;
+  int isSubmit = 1;
+  String correctAns = "";
+
   List<List<dynamic>> data = [];
   Random random = new Random();
   List TextCtrl = [];
-
+  TextEditingController scoreFd = new TextEditingController();
   void createQues()  async {
     final _rawData =  await rootBundle.loadString("assets/data/abbr_sheet.csv");
     List<List<dynamic>> _listData =
     const CsvToListConverter().convert(_rawData);
     data = _listData;
     setState(() {
+
       if(widget.type == "abbr") typeHd = "ABBR";
       else typeHd = "DEABBR";
       quesnumHd = widget.ques;
@@ -45,9 +54,12 @@ class _ExamScriptState extends State<ExamScript> {
 
     int i=0;
     while(quesIndex.length != widget.ques){
-      int random_number = random.nextInt(1791);
-      if (!quesIndex.contains(random_number)) {quesIndex.add(random_number);}
-      quesSet.add(data[quesIndex[i++]]);
+      int random_number = random.nextInt(totalAbbr);
+      if (!quesIndex.contains(random_number)) {
+        quesIndex.add(random_number);
+        quesSet.add(data[quesIndex[i++]]);
+
+      }
     }
 
   if(widget.type == "deabbr"){
@@ -75,9 +87,20 @@ class _ExamScriptState extends State<ExamScript> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: CustomBar(barName: "QUIZ TEST",),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text('QUIZ TEST', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        flexibleSpace: Image(
+          image: AssetImage("assets/images/appbar_bg.jpeg"),
+          fit: BoxFit.cover,
+        ),
+        backgroundColor: Colors.transparent,
       ),
       body:
       Container(
@@ -89,17 +112,17 @@ class _ExamScriptState extends State<ExamScript> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Colors.yellow,
+                  color: Colors.green.shade900,
                 ),
                 child:
                 RichText(
                   text: TextSpan(
-                    text: '   WRITE THE ',
-                    style:  TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold),
+                    text: '   WRITE ',
+                    style:  TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.normal),
                     children: <TextSpan>[
-                      TextSpan(text: '$typeHd', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                      TextSpan(text: '$typeHd', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                       TextSpan(text: ' OF FOL '),
-                      TextSpan(text: '$quesnumHd', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red)),
+                      TextSpan(text: '$quesnumHd', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
                       TextSpan(text: ' WORDS    '),
                     ],
                   ),
@@ -116,108 +139,114 @@ class _ExamScriptState extends State<ExamScript> {
                       margin: const EdgeInsets.symmetric(vertical: 8),
                       child: ListTile(
                         leading: Text('$cnt',  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold) ),
-                        title: Text(quesSet[index][0]),
-                        subtitle: TextFormField(
-                          controller: TextCtrl[index],
-                          decoration: InputDecoration(
-                            isDense: true,
-                            labelText: 'Your Answer',
-                            border: OutlineInputBorder(),
-                          ),
-                          style: TextStyle(color: Colors.black),
+                        title: Text(quesSet[index][0], style: TextStyle(fontWeight: FontWeight.bold),),
+                        subtitle: Column(
+                          children: [
+                            TextField(
+                              enabled: isInTime,
+                              controller: TextCtrl[index],
+                              decoration: InputDecoration(
+                                isDense: true,
+                                labelText: 'Your Answer',
+                                border: OutlineInputBorder(),
+
+                              ),
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            Visibility( visible: widget.isWrongVis[index],
+                                child:
+                                Text("Correct Ans: "+ quesSet[index][1], style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red)),
+                            ),
+
+                          ],
                         ),
                       ),
                     );
-                  }):  const Center(child: Text("Nothing"))
+                  }):  const Center(child: Text("Loading..."))
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color(0xff145A32 ),
+                    child: TimerCountdown(
+                      format: CountDownTimerFormat.minutesSeconds,
+                      enableDescriptions: false,
+                      spacerWidth: 2,
+                      timeTextStyle: TextStyle(color: Colors.white),
+                      colonsTextStyle: TextStyle(color: Colors.white),
+                      endTime: DateTime.now().add(
+                        Duration(
+                          minutes: widget.ques~/2,
+                          seconds: 00,
+                        ),
+                      ),
+                      onEnd: () {
+                        setState(() {
+                          isInTime = false;
+                        });
+                      },
+                    ),
+                    maxRadius: 40,
+                  ),
+                  CircleAvatar(
+                    backgroundColor: Colors.pink,
+                    child: TextField(
+                        controller: scoreFd,
+                        readOnly: false,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                            labelText: "SCORE",
+                            contentPadding: EdgeInsets.all(10.0),
+                            labelStyle: GoogleFonts.blackOpsOne(color: Colors.white, fontWeight: FontWeight.bold,),
+                            floatingLabelAlignment: FloatingLabelAlignment.center,
 
-              FloatingActionButton.extended(
-                label: Text('SUBMIT', style: TextStyle(color: Colors.white),), // <-- Text
-                backgroundColor: Colors.black,
-                icon: Icon( // <-- Icon
-                  Icons.check_circle_outline,
-                  size: 24.0,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  List wrongAns =[];
-                for (int i=0; i< quesnumHd;i++){
-                  if(quesSet[i][1] == TextCtrl[i].text.trim())
-                    {
-                      score++;
-                    }
-                  else{
-                    if(TextCtrl[i].text.trim() != ""){
-                        wrongAns.add(quesSet[i][1]+"=>  Your Ans:"+TextCtrl[i].text.trim()+ ",  Corect Ans:"+ quesSet[i][0]);
-                    }
-                  }
-                }
-                print("SCORE:"+ score.toString());
-                print(wrongAns);
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 42)),
+                    maxRadius: 40,
+                  ),
+                  const SizedBox(width: 10,),
 
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) =>  CustomDialogWidget(score: score.toString(), wrongAns: wrongAns),
-                );
-                },
-              ),
+                    FloatingActionButton.extended(
+                      label: Text('SUBMIT', style: TextStyle(color: Colors.white),), // <-- Text
+                      backgroundColor: Colors.black,
+                      icon: Icon( // <-- Icon
+                        Icons.check_circle_outline,
+                        size: 24.0,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        if (isSubmit==1) {
+                          for (int i = 0; i < quesnumHd; i++) {
+                            if (quesSet[i][1] == TextCtrl[i].text.trim()) {
+                              score++;
+                              TextCtrl[i].text = TextCtrl[i].text + "   ✅";
+                            }
+                            else {
+                              TextCtrl[i].text = TextCtrl[i].text + "    ❌";
+                              widget.isWrongVis[i] = true;
+                            }
+                          }
+
+                        }
+                        setState(() {
+                          scoreFd.text = score.toString();
+                          isInTime = false;
+                          isSubmit++;
+
+                        });
+
+                      },
+                    ),
+                ],
+              )
+
 
             ],
           ),
         ),
 
-      ),
-    );
-  }
-}
-
-class CustomDialogWidget extends StatelessWidget {
-  final String score;
-  final List wrongAns;
-
-  const CustomDialogWidget({super.key, required this.score, required this.wrongAns});
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      child: Container(
-        decoration: BoxDecoration(
-          color:Colors.pink,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("YOUR SCORE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22),),
-            SizedBox(height: 10,),
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Text(score, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 64)),
-              maxRadius: 60,
-            ),
-            SizedBox(height: 10,),
-
-            SizedBox(height: 10,),
-            FloatingActionButton.extended(
-              label: Text('CLOSE', style: TextStyle(color: Colors.white),),
-              backgroundColor: Colors.black,
-              icon: Icon( // <-- Icon
-                Icons.clear_rounded,
-                size: 24.0,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (_) => const LandingPage(initNavIndex: 3,)
-                ));
-
-              },
-            ),
-            SizedBox(height: 10,),
-          ],
-        ),
       ),
     );
   }

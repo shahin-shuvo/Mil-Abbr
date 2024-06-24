@@ -13,6 +13,7 @@ class PracAbbr extends StatefulWidget {
 }
 
 class _PracAbbrState extends State<PracAbbr> {
+  int totalAbbr = 1770;
   List<List<dynamic>> data = [];
   List QuesSet = [];
   int quesNo= 0;
@@ -30,7 +31,7 @@ class _PracAbbrState extends State<PracAbbr> {
     const CsvToListConverter().convert(_rawData);
     setState(() {
       data = _listData;
-      for(int i=0; i<=1791; i++){
+      for(int i=0; i<=totalAbbr; i++){
         QuesSet.add(i);
       }
       QuesSet.shuffle();
@@ -98,7 +99,7 @@ class _PracAbbrState extends State<PracAbbr> {
                     child: Align(
                       alignment: Alignment.center,
                      child: Text(data[QuesSet[quesNo]].first,
-                                  style: GoogleFonts.archivoBlack(fontSize: 30, color: Colors.white, fontWeight: FontWeight.w900),
+                                  style: GoogleFonts.archivoBlack(fontSize: 26, color: Colors.white, fontWeight: FontWeight.w900),
                                   textAlign: TextAlign.center,),
                   ))
                   );
@@ -150,7 +151,8 @@ class _PracAbbrState extends State<PracAbbr> {
                       )
 
                     )
-                    )),
+                    )
+                    ),
 
                     Visibility( visible: isWrongVis,
                         child:
@@ -169,7 +171,7 @@ class _PracAbbrState extends State<PracAbbr> {
                                   alignment: PlaceholderAlignment.middle,
                                   child: Icon(Icons.close_outlined, color: Colors.white, ),
                                 ),
-                                TextSpan(text: result, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                                TextSpan(text: result ,style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                               ],
                             ),
                           )
@@ -206,7 +208,7 @@ class _PracAbbrState extends State<PracAbbr> {
                         else{
                           isCorrectVis = false;
                           isWrongVis = true;
-                          result = "WRONG! Correct ans is: "+ data[QuesSet[quesNo]].last;
+                          result = "WRONG! Correct Ans: "+ data[QuesSet[quesNo]].last;
                         }
                       });
                     },
@@ -226,7 +228,7 @@ class _PracAbbrState extends State<PracAbbr> {
                     ),
                     onPressed: () {
                       setState(() {
-                        quesNo +=1;
+                        quesNo ++;
                         ansFd.clear();
                         isCorrectVis = false;
                         isWrongVis = false;
