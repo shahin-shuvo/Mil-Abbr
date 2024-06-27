@@ -44,8 +44,9 @@ class _LandingPageState extends State<LandingPage> {
       body: screens[navIndex],
       bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
-            indicatorColor: Colors.green.shade100,
-            backgroundColor: Colors.blueGrey.shade200,
+            indicatorColor: Colors.white,
+            // backgroundColor: Color(0xff145A32),
+            backgroundColor: Color(0xffCACFD2),
           ),
           child: NavigationBar(
 
@@ -54,7 +55,7 @@ class _LandingPageState extends State<LandingPage> {
             onDestinationSelected: (navIndex) =>
                 setState(() => this.navIndex = navIndex),
             destinations: [
-              NavigationDestination(icon: Icon(Icons.book), label: 'ABBR'),
+              NavigationDestination(icon: Icon(Icons.book), label: 'ABBR', ),
               NavigationDestination(icon: Icon(Icons.change_circle_sharp), label: 'AMDT'),
               NavigationDestination(icon: Icon(Icons.engineering), label: 'PRAC'),
               NavigationDestination(icon: Icon(Icons.menu_book), label: 'QUIZ'),

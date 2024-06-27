@@ -219,14 +219,22 @@ class _ExamScriptState extends State<ExamScript> {
                       onPressed: () {
                         if (isSubmit==1) {
                           for (int i = 0; i < quesnumHd; i++) {
-                            if (quesSet[i][1] == TextCtrl[i].text.trim()) {
-                              score++;
-                              TextCtrl[i].text = TextCtrl[i].text + "   ✅";
+                            int gotAns= 0;
+                            List ans= quesSet[i][1].split(RegExp(r'[;/,]'));
+
+                            for(int j=0; j<ans.length;j++) {
+                              if (ans[j].trim() == TextCtrl[i].text.trim()) {
+                                score++;
+                                TextCtrl[i].text = TextCtrl[i].text + "   ✅";
+                                gotAns= 1;
+                                break;
+                              }
                             }
-                            else {
-                              TextCtrl[i].text = TextCtrl[i].text + "    ❌";
-                              widget.isWrongVis[i] = true;
+                            if(gotAns==0){
+                                    TextCtrl[i].text = TextCtrl[i].text + "    ❌";
+                                    widget.isWrongVis[i] = true;
                             }
+
                           }
 
                         }

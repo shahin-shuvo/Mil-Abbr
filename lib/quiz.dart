@@ -15,77 +15,88 @@ class _QuizState extends State<Quiz> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-      Container(
-      child: GridView.count(
-      primary: false,
-        padding: const EdgeInsets.all(20),
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        crossAxisCount: 2,
-        children: <Widget>[
-          Card(
-            color: Colors.green,
-              child: _DataCard(
-                title: '10 QUESTIONS',
-                type: 'ABBR',
-                subTitle: "5 MINUTES",
-                button: FilledButton(
-                  style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
-                    onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  ExamScript(ques: 10, type: "abbr", isWrongVis: List.filled(10, false, growable: false))),);
-                    },
-                    child: const Text('Get Started'),
+      body: Container(
+
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+                      Card(
+                          color: Colors.green,
+                          child: _DataCard(
+                            title: '10 QUESTIONS',
+                            type: 'ABBR',
+                            subTitle: "5 MINUTES",
+                            button: FilledButton(
+                              style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) =>  ExamScript(ques: 10, type: "abbr", isWrongVis: List.filled(10, false, growable: false))),);
+                              },
+                              child: const Text('Get Started', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                            ),
+                          )
+                      ),
+                      Card(
+                          color: Color(0xff1E145A),
+                          child: _DataCard(
+                            title: '20 QUESTIONS',
+                            type: 'ABBR',
+                            subTitle: "10 MINUTES",
+                            button: FilledButton(
+                                style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 20, type: "abbr", isWrongVis: List.filled(20, false, growable: false))),);
+
+                                }, child: const Text('Get Started', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
+                          )
+                      ),
+                    ]
+
                 ),
-              )
-          ),
-          Card(
-            color: Color(0xff1E145A),
-              child: _DataCard(
-                title: '20 QUESTIONS',
-                type: 'ABBR',
-                subTitle: "10 MINUTES",
-                button: FilledButton(
-                  style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 20, type: "abbr", isWrongVis: List.filled(20, false, growable: false))),);
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                          Card(
+                            color: Color(0xff281537),
+                              child: _DataCard(
+                                title: '10 QUESTIONS',
+                                type: 'DEABBR',
+                                subTitle: "5 MINUTES",
+                                button: FilledButton(
+                                  style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 10, type: "deabbr", isWrongVis: List.filled(10, false, growable: false))),);
 
-                    }, child: const Text('Get Started')),
-              )
-          ),
-          Card(
-            color: Color(0xff281537),
-              child: _DataCard(
-                title: '10 QUESTIONS',
-                type: 'DEABBR',
-                subTitle: "5 MINUTES",
-                button: FilledButton(
-                  style:  FilledButton.styleFrom(backgroundColor: Colors.amber),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 10, type: "deabbr", isWrongVis: List.filled(10, false, growable: false))),);
+                                    }, child: const Text('Get Started', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
+                              )
+                          ),
+                          Card(
+                              color: Color(0xffB81736),
+                              child: _DataCard(
+                                title: '20 QUESTIONS',
+                                type: 'DEABBR',
+                                subTitle: "10 MINUTES",
+                                button: FilledButton(
 
-                    }, child: const Text('Get Started')),
-              )
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 20, type: "deabbr", isWrongVis: List.filled(20, false, growable: false))),);
+                                    },
+                                    child: const Text('Get Started', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                                    style:  FilledButton.styleFrom(backgroundColor: Colors.amber),),
+                              )
+                          ),
+                  ],
+                )
+              ],
+            ),
           ),
-          Card(
-              color: Color(0xffB81736),
-              child: _DataCard(
-                title: '20 QUESTIONS',
-                type: 'DEABBR',
-                subTitle: "10 MINUTES",
-                button: FilledButton(
-
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ExamScript(ques: 20, type: "deabbr", isWrongVis: List.filled(20, false, growable: false))),);
-                    },
-                    child: const Text('Get Started'),
-                    style:  FilledButton.styleFrom(backgroundColor: Colors.amber),),
-              )
-          ),
-        ],
         )
 
-    ));
+    );
   }
 }
 
