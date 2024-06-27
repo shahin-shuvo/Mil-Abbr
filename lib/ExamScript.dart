@@ -30,6 +30,7 @@ class _ExamScriptState extends State<ExamScript> {
   bool isInTime = true;
   int isSubmit = 1;
   String correctAns = "";
+  int CountDownTimer = 0;
 
   List<List<dynamic>> data = [];
   Random random = new Random();
@@ -81,7 +82,7 @@ class _ExamScriptState extends State<ExamScript> {
     // TODO: implement initState
     super.initState();
     createQues();
-
+    CountDownTimer = widget.ques;
   }
 
   @override
@@ -177,7 +178,7 @@ class _ExamScriptState extends State<ExamScript> {
                       colonsTextStyle: TextStyle(color: Colors.white),
                       endTime: DateTime.now().add(
                         Duration(
-                          minutes: widget.ques~/2,
+                          minutes: CountDownTimer~/2,
                           seconds: 00,
                         ),
                       ),
@@ -193,7 +194,7 @@ class _ExamScriptState extends State<ExamScript> {
                     backgroundColor: Colors.pink,
                     child: TextField(
                         controller: scoreFd,
-                        readOnly: false,
+                        readOnly: true,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                             labelText: "SCORE",
@@ -242,7 +243,7 @@ class _ExamScriptState extends State<ExamScript> {
                           scoreFd.text = score.toString();
                           isInTime = false;
                           isSubmit++;
-
+                          CountDownTimer = 0;
                         });
 
                       },

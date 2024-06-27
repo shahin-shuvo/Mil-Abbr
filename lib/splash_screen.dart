@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mil_abbr/landing_page.dart';
 
 
@@ -63,7 +64,21 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                     SizedBox(height: 400,),
                     Image(image: AssetImage("assets/images/splash_lower_1.jpg"),
-                        alignment: Alignment.bottomCenter)
+                        alignment: Alignment.bottomCenter),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [
+                          Color(0xff145A32 ),
+                          Color(0xff85C1E9),
+                        ]),
+                      ),
+                      child:
+                      Text("Developed by Capt Shahin",
+                        style:GoogleFonts.anton(fontSize: 12),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ],
 
                 ),
